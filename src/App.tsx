@@ -14,3 +14,10 @@ function App() {
 }
 
 export default App;
+
+/*
+  - Usamos Zod para los types de este proyecto.
+
+
+
+*/
