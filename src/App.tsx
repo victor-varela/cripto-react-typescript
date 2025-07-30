@@ -4,8 +4,6 @@ import { useCriptoStore } from "./store";
 
 function App() {
   const fetchCriptos = useCriptoStore(set => set.fetchCriptos);
-  const criptoCurrencies = useCriptoStore(set=> set.criptoCurrencies)
-  console.log(criptoCurrencies);
   
   useEffect(() => {
     fetchCriptos();
