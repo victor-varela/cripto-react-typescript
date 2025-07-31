@@ -13,8 +13,19 @@ const [CriptoPair, setCriptoPair] = useState<CriptoPair>({
 const handleChange = (e: React.ChangeEvent<HTMLSelectElement>)=>{
   setCriptoPair({...CriptoPair, [e.target.name]: e.target.value})
 }
+
+const handleSubmit= (e: React.FormEvent<HTMLFormElement>)=>{
+  e.preventDefault();
+ if(Object.values(CriptoPair).includes("")){
+  console.log('error...');
+  return;
+ }
+
+ 
+  
+}
   return (
-    <form action="" className="form">
+    <form action="" className="form" onSubmit={handleSubmit} >
       <div className="field">
         <label htmlFor="currency">Moneda:</label>
         <select name="currency" id="currency" onChange={handleChange}>

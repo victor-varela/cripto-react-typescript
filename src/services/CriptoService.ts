@@ -13,7 +13,6 @@ export const getCriptos = async () => {
       },
     } = await axios(url);
     const parsedList = CurrenciesResponseSchema.safeParse(LIST);
-    console.log(LIST);
     
     //Salimos rapido del error. Sino hay error, seguimos.. "Fail Fast, Exit Early”
     if (!parsedList.success) {
