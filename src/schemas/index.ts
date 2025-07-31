@@ -14,6 +14,11 @@ export const CurrencyResponseSchema = z.object({
 
 export const CurrenciesResponseSchema = z.array(CurrencyResponseSchema);
 
+export const CriptoPairSchema = z.object({
+  currency: z.string(),
+  criptocurrency: z.string()
+});
+
 /*
 - Los schemas son const.
 
