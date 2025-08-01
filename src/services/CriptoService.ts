@@ -1,5 +1,6 @@
 import axios from "axios";
 import { CurrenciesResponseSchema } from "../schemas";
+import type { CriptoPair } from "../types";
 
 export const getCriptos = async () => {
   const url =
@@ -26,7 +27,19 @@ export const getCriptos = async () => {
   }
 };
 
-// export const getCriptoValue = async ()=>{
+export const getCriptoPair= async (criptoPair: CriptoPair)=>{
+  console.log('desde cripto pair', criptoPair);
 
+  const url= `https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments=${criptoPair.criptocurrency}-${criptoPair.currency}&apply_mapping=true`
 
-// }
+  try {
+    const resp = await axios(url)
+    console.log(resp);
+    return resp;
+    
+  } catch (error) {
+    console.log(error);
+    
+  }
+  
+}

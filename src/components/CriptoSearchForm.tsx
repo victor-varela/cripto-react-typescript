@@ -2,31 +2,39 @@ import { useState } from "react";
 import { currencies } from "../data";
 import { useCriptoStore } from "../store";
 import type { CriptoPair } from "../types";
+import Error from "./Error";
 
 const CriptoSearchForm = () => {
+
 const criptoCurrencies = useCriptoStore(set=> set.criptoCurrencies);
-const [CriptoPair, setCriptoPair] = useState<CriptoPair>({
+const fetchCriptoPair = useCriptoStore(set=> set.fetchCriptoPair);
+const [criptoPair, setCriptoPair] = useState<CriptoPair>({
   currency: "",
   criptocurrency:""
 })
 
+const [error, setError] = useState("")
+
 const handleChange = (e: React.ChangeEvent<HTMLSelectElement>)=>{
-  setCriptoPair({...CriptoPair, [e.target.name]: e.target.value})
+  setCriptoPair({...criptoPair, [e.target.name]: e.target.value})
 }
 
 const handleSubmit= (e: React.FormEvent<HTMLFormElement>)=>{
   e.preventDefault();
- if(Object.values(CriptoPair).includes("")){
-  console.log('error...');
+ if(Object.values(criptoPair).includes("")){
+  setError("Todos los campos son obligatorios")
   return;
  }
+ setError("")
 
  
+ fetchCriptoPair(criptoPair)
   
 }
   return (
     <form action="" className="form" onSubmit={handleSubmit} >
       <div className="field">
+        {error && <Error>{error}</Error>}
         <label htmlFor="currency">Moneda:</label>
         <select name="currency" id="currency" onChange={handleChange}>
           <option value="">-- Seleccione --</option>

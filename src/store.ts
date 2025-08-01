@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { CriptoStore } from "./types";
 import { devtools } from "zustand/middleware";
-import { getCriptos } from "./services/CriptoService";
+import { getCriptoPair, getCriptos } from "./services/CriptoService";
 
 export const useCriptoStore = create<CriptoStore>()(
   devtools(set => ({
@@ -16,6 +16,12 @@ export const useCriptoStore = create<CriptoStore>()(
       // Con Set asignamos el valor al state (criptoCurrencies)El state y la variable se llaman igual por eso solo el nombre [key] sin [value]
       set(() => ({ criptoCurrencies }));
     },
+
+    fetchCriptoPair: async (criptoPair)=>{
+     const pair=  await getCriptoPair(criptoPair)
+     console.log(pair);
+     
+    }
   }))
 );
 
