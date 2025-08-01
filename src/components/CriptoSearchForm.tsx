@@ -5,38 +5,37 @@ import type { CriptoPair } from "../types";
 import Error from "./Error";
 
 const CriptoSearchForm = () => {
+  const criptoCurrencies = useCriptoStore(set => set.criptoCurrencies);
+  const fetchCriptoPair = useCriptoStore(set => set.fetchCriptoPair);
+  const [criptoPair, setCriptoPair] = useState<CriptoPair>({
+    currency: "",
+    criptocurrency: "",
+  });
 
-const criptoCurrencies = useCriptoStore(set=> set.criptoCurrencies);
-const fetchCriptoPair = useCriptoStore(set=> set.fetchCriptoPair);
-const [criptoPair, setCriptoPair] = useState<CriptoPair>({
-  currency: "",
-  criptocurrency:""
-})
+  const [error, setError] = useState("");
 
-const [error, setError] = useState("")
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCriptoPair({ ...criptoPair, [e.target.name]: e.target.value });
+  };
 
-const handleChange = (e: React.ChangeEvent<HTMLSelectElement>)=>{
-  setCriptoPair({...criptoPair, [e.target.name]: e.target.value})
-}
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (Object.values(criptoPair).includes("")) {
+      setError("Todos los campos son obligatorios");
+      return;
+    }
+    setError("");
 
-const handleSubmit= (e: React.FormEvent<HTMLFormElement>)=>{
-  e.preventDefault();
- if(Object.values(criptoPair).includes("")){
-  setError("Todos los campos son obligatorios")
-  return;
- }
- setError("")
+    //consultar la API
 
- 
- fetchCriptoPair(criptoPair)
-  
-}
+    fetchCriptoPair(criptoPair);
+  };
   return (
-    <form action="" className="form" onSubmit={handleSubmit} >
+    <form action="" className="form" onSubmit={handleSubmit}>
+      {error && <Error>{error}</Error>}
       <div className="field">
-        {error && <Error>{error}</Error>}
         <label htmlFor="currency">Moneda:</label>
-        <select name="currency" id="currency" onChange={handleChange}>
+        <select name="currency" id="currency" onChange={handleChange} value={criptoPair.currency}>
           <option value="">-- Seleccione --</option>
           {currencies.map(currency => (
             <option value={currency.code} key={currency.code}>
@@ -47,10 +46,12 @@ const handleSubmit= (e: React.FormEvent<HTMLFormElement>)=>{
       </div>
       <div className="field">
         <label htmlFor="criptocurrency">Criptomoneda:</label>
-        <select name="criptocurrency" id="criptocurrency"onChange={handleChange}>
+        <select name="criptocurrency" id="criptocurrency" onChange={handleChange} value={criptoPair.criptocurrency}>
           <option value="">-- Seleccione --</option>
-          {criptoCurrencies.map(cripto=>(
-            <option value={cripto.SYMBOL} key={cripto.SYMBOL}>{cripto.NAME}</option>
+          {criptoCurrencies.map(cripto => (
+            <option value={cripto.SYMBOL} key={cripto.SYMBOL}>
+              {cripto.NAME}
+            </option>
           ))}
         </select>
       </div>

@@ -14,7 +14,7 @@ export const getCriptos = async () => {
       },
     } = await axios(url);
     const parsedList = CurrenciesResponseSchema.safeParse(LIST);
-    
+
     //Salimos rapido del error. Sino hay error, seguimos.. "Fail Fast, Exit Early”
     if (!parsedList.success) {
       console.log("respuesta mal formada");
@@ -27,19 +27,20 @@ export const getCriptos = async () => {
   }
 };
 
-export const getCriptoPair= async (criptoPair: CriptoPair)=>{
-  console.log('desde cripto pair', criptoPair);
+export const getCriptoPair = async (criptoPair: CriptoPair) => {
 
-  const url= `https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments=${criptoPair.criptocurrency}-${criptoPair.currency}&apply_mapping=true`
+  const apiPair = `${criptoPair.criptocurrency}-${criptoPair.currency}`;
+
+  const url = `https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments=${apiPair}&apply_mapping=true`;
 
   try {
-    const resp = await axios(url)
-    console.log(resp);
-    return resp;
-    
+    const {
+      data: { Data },
+    } = await axios(url);
+
+    const pairData = Data[apiPair]; //accedemos despues del destructuring 'fijo' a la variable 'dinamica' con []
+    return pairData;
   } catch (error) {
     console.log(error);
-    
   }
-  
-}
+};
