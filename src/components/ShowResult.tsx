@@ -1,7 +1,7 @@
-import type { PairResponseSchema } from "../schemas"
+import type { CriptoStore } from "../types"
 
-const ShowResult = ({data}: {data: z.infer<typeof PairResponseSchema>}) => {
-  
+//Lo que hiciste se llama indexed access type. el uso de corchetes...
+const ShowResult = ({data}: {data:CriptoStore['result']}) => {
     
   return (
     <h2>Resultados...
