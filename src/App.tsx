@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import CriptoSearchForm from "./components/CriptoSearchForm";
 import { useCriptoStore } from "./store";
+import ShowResult from "./components/ShowResult";
 
 function App() {
   const fetchCriptos = useCriptoStore(set => set.fetchCriptos);
-  
+  const data = useCriptoStore(set => set.result);
+
   useEffect(() => {
     fetchCriptos();
   }, []);
@@ -18,6 +20,7 @@ function App() {
         <div className="content">
           <CriptoSearchForm />
         </div>
+        <div>{data.VALUE > 0 && <ShowResult data={data} />}</div>
       </div>
     </>
   );

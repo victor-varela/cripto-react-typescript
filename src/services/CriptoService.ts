@@ -1,7 +1,7 @@
 import axios from "axios";
 import { CurrenciesResponseSchema, PairResponseSchema } from "../schemas";
 import type { CriptoPair } from "../types";
-import { safeParse } from "zod";
+
 
 export const getCriptos = async () => {
   const url =
@@ -39,7 +39,7 @@ export const getCriptoPair = async (criptoPair: CriptoPair) => {
     } = await axios(url);
 
     const pairData = Data[apiPair]; //accedemos despues del destructuring 'fijo' a la variable 'dinamica' con [] para tener el objeto que tiene la info que necesitamos
-
+    
     //Manejamos error si Data[apiPair] falla:
 
     if (!pairData) {

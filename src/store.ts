@@ -5,8 +5,17 @@ import { getCriptoPair, getCriptos } from "./services/CriptoService";
 
 export const useCriptoStore = create<CriptoStore>()(
   devtools(set => ({
-    //Aca se declaran los states/funciones:
+    //States:
     criptoCurrencies: [],
+
+    result: {
+      VALUE: 0,
+      CURRENT_DAY_CHANGE_PERCENTAGE: 0,
+      CURRENT_DAY_HIGH: 0,
+      CURRENT_DAY_LOW: 0,
+    },
+
+    //Funciones (Acciones/Actions):
 
     fetchCriptos: async () => {
       //Como getCriptos retorna la lista de monedas ya parseada (verificada por zod) la agregamos al state del store. Esto es asincrono.
@@ -17,11 +26,11 @@ export const useCriptoStore = create<CriptoStore>()(
       set(() => ({ criptoCurrencies }));
     },
 
-    fetchCriptoPair: async (criptoPair)=>{
-     const pair=  await getCriptoPair(criptoPair)
-     console.log(pair);
-     
-    }
+    fetchCriptoPair: async criptoPair => {
+      const result = await getCriptoPair(criptoPair);
+
+      set(() => ({ result }));
+    },
   }))
 );
 
