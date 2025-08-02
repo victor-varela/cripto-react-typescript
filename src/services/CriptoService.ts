@@ -1,6 +1,7 @@
 import axios from "axios";
-import { CurrenciesResponseSchema } from "../schemas";
+import { CurrenciesResponseSchema, PairResponseSchema } from "../schemas";
 import type { CriptoPair } from "../types";
+import { safeParse } from "zod";
 
 export const getCriptos = async () => {
   const url =
@@ -28,7 +29,6 @@ export const getCriptos = async () => {
 };
 
 export const getCriptoPair = async (criptoPair: CriptoPair) => {
-
   const apiPair = `${criptoPair.criptocurrency}-${criptoPair.currency}`;
 
   const url = `https://data-api.coindesk.com/index/cc/v1/latest/tick?market=cadli&instruments=${apiPair}&apply_mapping=true`;
@@ -38,9 +38,27 @@ export const getCriptoPair = async (criptoPair: CriptoPair) => {
       data: { Data },
     } = await axios(url);
 
-    const pairData = Data[apiPair]; //accedemos despues del destructuring 'fijo' a la variable 'dinamica' con []
-    return pairData;
+    const pairData = Data[apiPair]; //accedemos despues del destructuring 'fijo' a la variable 'dinamica' con [] para tener el objeto que tiene la info que necesitamos
+
+    //Manejamos error si Data[apiPair] falla:
+
+    if (!pairData) {
+      console.error(`No se encontro el par ${apiPair}`);
+      return;
+    }
+
+    // Validamos la respuesta con Zod. Siempre manejar el resultado de safeParse, especialmente con datos externos.
+    // Ignorar el fallo haría que Zod pierda su poder, ya que seguirías usando datos posiblemente inválidos.
+    const parsedPair = PairResponseSchema.safeParse(pairData);
+
+    if (!parsedPair.success) {
+      console.error("Respuesta invalida:", parsedPair.error);
+      return;
+    }
+
+    return parsedPair.data; // Paso la validacion. Retornamos en .data esta la info que necesitamos
   } catch (error) {
-    console.log(error);
+    console.error("Error al obtener la cripto:", error);
+    throw error;
   }
 };
