@@ -5,7 +5,6 @@ import ShowResult from "./components/ShowResult";
 
 function App() {
   const fetchCriptos = useCriptoStore(set => set.fetchCriptos);
-  const data = useCriptoStore(set => set.result);
 
   useEffect(() => {
     fetchCriptos();
@@ -19,8 +18,8 @@ function App() {
         </h1>
         <div className="content">
           <CriptoSearchForm />
+          <ShowResult />
         </div>
-        <div>{data.VALUE > 0 && <ShowResult data={data} />}</div>
       </div>
     </>
   );
@@ -31,6 +30,7 @@ export default App;
 /*
   - Usamos Zod para los types de este proyecto.
   - Usamos Zustand para el manejo del estado. Recuerda que para acceder debes pasar el parametro set
+  - Usamos Zustand par no tener que pasar props, es mas directo tener un store y acceder al state en cada componente.
 
 
 */

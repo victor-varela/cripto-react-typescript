@@ -5,14 +5,15 @@ import { getCriptoPair, getCriptos } from "./services/CriptoService";
 
 export const useCriptoStore = create<CriptoStore>()(
   devtools(set => ({
-    //States:
+    // States:
     criptoCurrencies: [],
 
+    //los objetos se tienen que inicializar. los arrays pueden ser vacios
     result: {
-      VALUE: 0,
-      CURRENT_DAY_CHANGE_PERCENTAGE: 0,
-      CURRENT_DAY_HIGH: 0,
-      CURRENT_DAY_LOW: 0,
+        VALUE: 0,
+        CURRENT_DAY_CHANGE_PERCENTAGE: 0,
+        CURRENT_DAY_HIGH: 0,
+        CURRENT_DAY_LOW: 0,
     },
 
     //Funciones (Acciones/Actions):
@@ -52,5 +53,11 @@ useSomeStore = create<SomeType>()(
 )
 
 fijate que despues del type viene un parentesis(), luego parentesis de toda la funcion y DENTRO devtools que arropa al set
+
+-Siempre que uses Zustand + Zod:
+
+Arrays → podés iniciar con [] sin problemas.
+
+Objetos con shape específico → iniciá con un valor real, o null, o usá as si sabés lo que hacés.
 
 */

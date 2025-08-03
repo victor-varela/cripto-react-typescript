@@ -80,3 +80,31 @@ body {
 .form [type="submit"]:hover {
   background-color: #0cb387;
 }
+
+.result-wrapper{
+  margin-top: 5rem;
+}
+
+.result-wrapper h2{
+  text-align: center;
+}
+
+.result{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.result img{
+  width: auto;
+  max-width: 50%;
+  height: auto;
+  box-shadow: 2px 2px 10px;
+}
+
+@media (max-width:500px) {
+  .result{
+    flex-direction: column;
+    justify-content: center;
+  }
+}
