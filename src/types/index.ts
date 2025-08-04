@@ -8,6 +8,7 @@ export type CriptoStore = {
   fetchCriptos: () => Promise<void>;
   fetchCriptoPair: (criptoPair: CriptoPair) =>Promise <void>; //En TypeScript, una función async siempre devuelve una Promise, incluso si no retornás explícitamente nada.
   result: z.infer<typeof PairResponseSchema>
+  loading: boolean;
 };
 
 export type CriptoPair = z.infer<typeof CriptoPairSchema>;

@@ -10,11 +10,13 @@ export const useCriptoStore = create<CriptoStore>()(
 
     //los objetos se tienen que inicializar. los arrays pueden ser vacios
     result: {
-        VALUE: 0,
-        CURRENT_DAY_CHANGE_PERCENTAGE: 0,
-        CURRENT_DAY_HIGH: 0,
-        CURRENT_DAY_LOW: 0,
+      VALUE: 0,
+      CURRENT_DAY_CHANGE_PERCENTAGE: 0,
+      CURRENT_DAY_HIGH: 0,
+      CURRENT_DAY_LOW: 0,
     },
+
+    loading: false,
 
     //Funciones (Acciones/Actions):
 
@@ -28,9 +30,12 @@ export const useCriptoStore = create<CriptoStore>()(
     },
 
     fetchCriptoPair: async criptoPair => {
+      //Cambiamos loading antes de buscar la info
+      set(() => ({ loading: true }));
+
       const result = await getCriptoPair(criptoPair);
 
-      set(() => ({ result }));
+      set(() => ({ result, loading: false }));
     },
   }))
 );
